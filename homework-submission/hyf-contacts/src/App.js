@@ -41,22 +41,6 @@ class App extends Component {
     );
   }
 
-  renderContactDetail(contact) {
-    //console.log("sin renderContactDetail");
-
-    return (
-      <div key={contact.id} className="details">
-        <div className="details_icon">
-          <img src={contact.profileImage} alt="" />
-        </div>
-        <div className="detail_info">
-          <span className="clist__firstName">{contact.firstName}</span>
-          <span className="clist__lastName">{contact.lastName}</span>
-        </div>
-      </div>
-    );
-  }
-
   handleSeach(e) {
     const value = e.target.value;
     console.log("searchtext:", value);
@@ -72,12 +56,9 @@ class App extends Component {
     this.setState({ contacts: myfilteredContacts });
     this.setState({ filteredContacts: myfilteredContacts });
     console.log("filteredContacts:", this.state.filteredContacts);
-    //this.renderContacts(this.state.filteredContacts);
   }
 
   render() {
-    //if (this.state.searchtext === 0) {
-    //}
     const {
       contacts,
       originalContacts,
@@ -85,16 +66,7 @@ class App extends Component {
       searchtext
     } = this.state;
     const activeContact = originalContacts[activeContactIndex];
-
-    //const filteredContacts = contacts.filter(contact => )
-
     const allContacts = contacts.map(contact => this.renderContacts(contact));
-
-    /*const activeContacts = contacts.map(activeContact =>
-      this.renderContactDetail(activeContact)
-    );*/
-
-    //const contact_list = CONTACTS.map(contact => this.renderContacts(CONTACTS));
 
     return (
       <div className="App">
@@ -153,9 +125,6 @@ class App extends Component {
                     {activeContact.lastName}
                   </span>
                 </div>
-                {/* <h1>
-                  {activeContact.firstName + " " + activeContact.lastName}
-                </h1> */}
               </div>
 
               <div className="details__info">
