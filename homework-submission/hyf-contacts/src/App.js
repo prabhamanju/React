@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import MockData from "../src/MockData";
+import MyHeader from "./MyHeader";
+import MockData from "./MockData";
 
 class App extends Component {
   constructor(props) {
@@ -10,41 +11,25 @@ class App extends Component {
       contacts: MockData,
       originalContacts: MockData,
       filteredContacts: [],
-      searchtext: "",
+      searchText: "",
       activeContactIndex: 0
     };
   }
 
   handleSelectContact = Contact => {
-    console.log("SELECTED", Contact);
-    console.log(
-      " active contact index SELECTED before",
-      this.state.activeContactIndex
-    );
-    //this.setState({ activeContactIndex: originalContacts.id -1 });
-    console.log("temp index", this.state.contacts.indexOf(Contact));
-
     this.setState({
-      activeContactIndex: this.state.contacts.indexOf(Contact)
+      activeContactIndex: this.state.originalContacts.indexOf(Contact)
     });
-    console.log(
-      " active contact index SELECTED after set",
-      this.state.activeContactIndex
-    );
   };
-
   renderContacts(contact) {
-    //console.log(this.contacts);
-
     if (
-      this.state.contacts.indexOf(contact) === this.state.activeContactIndex
+      this.state.originalContacts.indexOf(contact) ===
+      this.state.activeContactIndex
     ) {
       return (
         <div
           key={contact.id}
-          //key={this.state.contacts.indexOf(contact)}
           className="clist__contact active"
-          //onClick={this.handleSelectContact.bind(this, contacts)}
           onClick={() => this.handleSelectContact(contact)}
         >
           <div className="clist__icon">
@@ -62,7 +47,6 @@ class App extends Component {
         <div
           key={contact.id}
           className="clist__contact"
-          //onClick={this.handleSelectContact.bind(this, contacts)}
           onClick={() => this.handleSelectContact(contact)}
         >
           <div className="clist__icon">
@@ -80,16 +64,14 @@ class App extends Component {
 
   handleSeach(e) {
     const value = e.target.value;
-    console.log("searchtext:", value);
-    this.setState({ searchtext: value });
+    console.log("searchText:", value);
+    this.setState({ searchText: value });
 
     const myfilteredContacts = this.state.originalContacts.filter(
       mycontact =>
         mycontact.firstName.toLowerCase().includes(value.toLowerCase()) |
         mycontact.lastName.toLowerCase().includes(value.toLowerCase())
     );
-
-    // console.log("filteredContacts:", myfilteredContacts);
     this.setState({ contacts: myfilteredContacts });
     this.setState({ filteredContacts: myfilteredContacts });
     console.log("filteredContacts:", this.state.filteredContacts);
@@ -100,7 +82,7 @@ class App extends Component {
       contacts,
       originalContacts,
       activeContactIndex,
-      searchtext
+      searchText
     } = this.state;
     const activeContact = originalContacts[activeContactIndex];
     const allContacts = contacts.map(contact => this.renderContacts(contact));
@@ -108,25 +90,7 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <div className="header">
-            <span className="header__branding">
-              <img
-                src={logo}
-                width="35"
-                height="35"
-                className="header__logo"
-                alt="Contacts app logo"
-              />
-              <h1 className="header__title">Contacts</h1>
-            </span>
-            <span className="header__actions">
-              <span className="btn">
-                <i className="btn__icon fas fa-plus" />
-
-                <span className="btn__label">Create Contact</span>
-              </span>
-            </span>
-          </div>
+          <MyHeader />
           <div className="main">
             <div className="clist">
               <div className="clist__search">
@@ -138,7 +102,7 @@ class App extends Component {
                   className="clist__searchInput"
                   type="search"
                   placeholder="Search by name...."
-                  value={searchtext}
+                  value={searchText}
                   onChange={this.handleSeach.bind(this)}
                 />
               </div>
