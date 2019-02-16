@@ -15,30 +15,67 @@ class App extends Component {
     };
   }
 
-  handleSelectContact = originalContacts => {
-    console.log("SELECTED", originalContacts);
-    this.setState({ activeContactIndex: originalContacts.id - 1 });
+  handleSelectContact = Contact => {
+    console.log("SELECTED", Contact);
+    console.log(
+      " active contact index SELECTED before",
+      this.state.activeContactIndex
+    );
+    //this.setState({ activeContactIndex: originalContacts.id -1 });
+    console.log("temp index", this.state.contacts.indexOf(Contact));
+
+    this.setState({
+      activeContactIndex: this.state.contacts.indexOf(Contact)
+    });
+    console.log(
+      " active contact index SELECTED after set",
+      this.state.activeContactIndex
+    );
   };
 
-  renderContacts(contacts) {
+  renderContacts(contact) {
     //console.log(this.contacts);
-    return (
-      <div
-        key={contacts.id}
-        className="clist__contact"
-        //onClick={this.handleSelectContact.bind(this, contacts)}
-        onClick={() => this.handleSelectContact(contacts)}
-      >
-        <div className="clist__icon">
-          <img src={contacts.profileImage} alt="" />
-        </div>
 
-        <div className="clist__name">
-          <span className="clist__firstName">{contacts.firstName}</span>
-          <span className="clist__lastName">{contacts.lastName}</span>
+    if (
+      this.state.contacts.indexOf(contact) === this.state.activeContactIndex
+    ) {
+      return (
+        <div
+          key={contact.id}
+          //key={this.state.contacts.indexOf(contact)}
+          className="clist__contact active"
+          //onClick={this.handleSelectContact.bind(this, contacts)}
+          onClick={() => this.handleSelectContact(contact)}
+        >
+          <div className="clist__icon">
+            <img src={contact.profileImage} alt="" />
+          </div>
+
+          <div className="clist__name">
+            <span className="clist__firstName">{contact.firstName}</span>
+            <span className="clist__lastName">{contact.lastName}</span>
+          </div>
         </div>
-      </div>
-    );
+      );
+    } else {
+      return (
+        <div
+          key={contact.id}
+          className="clist__contact"
+          //onClick={this.handleSelectContact.bind(this, contacts)}
+          onClick={() => this.handleSelectContact(contact)}
+        >
+          <div className="clist__icon">
+            <img src={contact.profileImage} alt="" />
+          </div>
+
+          <div className="clist__name">
+            <span className="clist__firstName">{contact.firstName}</span>
+            <span className="clist__lastName">{contact.lastName}</span>
+          </div>
+        </div>
+      );
+    }
   }
 
   handleSeach(e) {
